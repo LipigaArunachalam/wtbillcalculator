@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KFC Shop Bill Calculator</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-image d-flex align-items-center justify-content-center" style="background-image: url('kfc2.png'); height: 100vh;">
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h2 class="text-center text-white mb-4"> KFC Its Finger Licking Good!!</h2>
+    <form id="billForm">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="burgerQuantity" class=" text-white h5">Burger Quantity:</label>
+                    <input type="number" class="form-control" id="burgerQuantity" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="friesQuantity" class="text-white h5">Fries Quantity:</label>
+                    <input type="number" class="form-control" id="friesQuantity" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="drinkQuantity" class=" text-white h5">Drink Quantity:</label>
+                    <input type="number" class="form-control" id="drinkQuantity" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="nuggetsQuantity" class="text-white h5">Nuggets Quantity:</label>
+                    <input type="number" class="form-control" id="nuggetsQuantity" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="stripsQuantity" class=" text-white h5">Strips Quantity:</label>
+                    <input type="number" class="form-control" id="stripsQuantity" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="text-white h5">Service Option:</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="serviceOption" id="diningOption" value="dining">
+                        <label class="form-check-label text-white" for="diningOption">Dining</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="serviceOption" id="takeawayOption" value="takeaway">
+                        <label class="form-check-label text-white" for="takeawayOption">Take Away</label>
+                    </div>
+               </div>
+           </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <button type="button" class="btn btn-primary btn-block" onclick="calculateBill()">Calculate Bill</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="card mt-4" id="billCard" style="display: none;">
+        <div class="card-body" id="billResult">
+            <!-- Bill summary will be displayed here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculateBill() {
+        const prices = {
+            burger: 5,
+            fries: 3,
+            drink: 2,
+            nuggets: 4,
+            strips: 6
+        };
+
+        // Get quantity of each item
+        const burgerQuantity = parseInt(document.getElementById('burgerQuantity').value) || 0;
+        const friesQuantity = parseInt(document.getElementById('friesQuantity').value) || 0;
+        const drinkQuantity = parseInt(document.getElementById('drinkQuantity').value) || 0;
+        const nuggetsQuantity = parseInt(document.getElementById('nuggetsQuantity').value) || 0;
+        const stripsQuantity = parseInt(document.getElementById('stripsQuantity').value) || 0;
+
+        // Get service option
+        const serviceOption = document.querySelector('input[name="serviceOption"]:checked');
+
+        // Check if at least one field is filled
+        if (burgerQuantity === 0 && friesQuantity === 0 && drinkQuantity === 0 && nuggetsQuantity === 0 && stripsQuantity === 0) {
+            alert('At least one field must be filled.');
+            return;
+        }
+
+        // Initialize bill summary
+        let billSummary = '<h5 class="card-title text-dark">Your Bill Summary:</h5>';
+
+        // Check each item's quantity and add to the bill summary if quantity > 0
+        if (burgerQuantity > 0) {
+            billSummary += `<p class="card-text text-dark">Burgers: ${burgerQuantity}</p>`;
+        }
+        if (friesQuantity > 0) {
+            billSummary += `<p class="card-text text-dark">Fries: ${friesQuantity}</p>`;
+        }
+        if (drinkQuantity > 0) {
+            billSummary += `<p class="card-text text-dark">Drinks: ${drinkQuantity}</p>`;
+        }
+        if (nuggetsQuantity > 0) {
+            billSummary += `<p class="card-text text-dark">Nuggets: ${nuggetsQuantity}</p>`;
+        }
+        if (stripsQuantity > 0) {
+            billSummary += `<p class="card-text text-dark">Strips: ${stripsQuantity}</p>`;
+        }
+
+        // Calculate subtotal
+        let subtotal = (prices.burger * burgerQuantity) +
+            (prices.fries * friesQuantity) +
+            (prices.drink * drinkQuantity) +
+            (prices.nuggets * nuggetsQuantity) +
+            (prices.strips * stripsQuantity);
+
+        // Check service option and add appropriate charges
+        if (serviceOption && serviceOption.value === 'dining') {
+            billSummary += '<p class="card-text text-dark">Dining: 0$</p>';
+        } else if (serviceOption && serviceOption.value === 'takeaway') {
+            subtotal += 2; 
+            billSummary += '<p class="card-text text-dark">Take Away: 2$</p>';
+        } else {
+            alert('Please select a service option.');
+            return;
+        }
+
+        // Add total to bill summary
+        billSummary += `<h5 class="card-title text-dark">Total: $${subtotal}</h5>`;
+
+        // Display the bill summary
+        const billResultDiv = document.getElementById('billResult');
+        billResultDiv.innerHTML = billSummary;
+
+        // Show the card
+        document.getElementById('billCard').style.display = 'block';
+    }
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
