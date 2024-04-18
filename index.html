@@ -107,19 +107,19 @@
 
         // Check each item's quantity and add to the bill summary if quantity > 0
         if (burgerQuantity > 0) {
-            billSummary += `<p class="card-text text-dark">Burgers: ${burgerQuantity}</p>`;
+            billSummary += `<p class="card-text text-dark">Burgers: ${burgerQuantity} : $${burgerQuantity*prices.burger}</p>`;
         }
         if (friesQuantity > 0) {
-            billSummary += `<p class="card-text text-dark">Fries: ${friesQuantity}</p>`;
+            billSummary += `<p class="card-text text-dark">Fries: ${friesQuantity} : $${friesQuantity*prices.fries}</p>`;
         }
         if (drinkQuantity > 0) {
-            billSummary += `<p class="card-text text-dark">Drinks: ${drinkQuantity}</p>`;
+            billSummary += `<p class="card-text text-dark">Drinks: ${drinkQuantity} : $${drinkQuantity*prices.drink}</p>`;
         }
         if (nuggetsQuantity > 0) {
-            billSummary += `<p class="card-text text-dark">Nuggets: ${nuggetsQuantity}</p>`;
+            billSummary += `<p class="card-text text-dark">Nuggets: ${nuggetsQuantity} : $${nuggetsQuantity*prices.nuggets}</p>`;
         }
         if (stripsQuantity > 0) {
-            billSummary += `<p class="card-text text-dark">Strips: ${stripsQuantity}</p>`;
+            billSummary += `<p class="card-text text-dark">Strips: ${stripsQuantity} : $${stripsQuantity*prices.strips}</p>`;
         }
 
         // Calculate subtotal
